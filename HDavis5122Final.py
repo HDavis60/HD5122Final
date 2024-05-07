@@ -5,19 +5,21 @@ from wordcloud import WordCloud
 
 BA_AirlineReviews = pd.read_csv('BA_AirlineReviews.csv')
 
+st.image('BritishAirways.jpg')
+
 st.title('Visualization of British Airways Customer Reviews')
 st.title('_____________________________')
 
 #Overall Rating by Year
 
-st.title('Overall Rating Out Of 10 by Year')
+st.title('Overall Rating out of 10 by Year')
 
 BA_AirlineReviews['Year'] = BA_AirlineReviews['Datetime'].str[-4:]
 
-average_rating_by_year = BA_AirlineReviews.groupby('Year')['OverallRating'].mean()
+average_rating_by_Year = BA_AirlineReviews.groupby('Year')['OverallRating'].mean()
 
 plt.figure(figsize=(10, 6))
-plt.plot(average_rating_by_year.index, average_rating_by_year.values, marker='o')
+plt.plot(average_rating_by_Year.index, average_rating_by_Year.values, marker='o')
 plt.xlabel('Year')
 plt.ylabel('Overall Rating Out Of 10')
 st.pyplot(plt.gcf())
@@ -43,6 +45,24 @@ plt.xlabel('Overall Rating')
 plt.ylabel('Count')
 plt.title(f'Ratings For {selected_class}')
 plt.xticks(rotation=0)
+st.pyplot(plt.gcf())
+
+
+
+#Category Scores
+st.title('British Airways Miscellaneous Category Ratings out of 5')
+
+categories = ['SeatComfort', 'CabinStaffService', 'GroundService', 'ValueForMoney', 'Food&Beverages', 'InflightEntertainment', 'Wifi&Connectivity']
+
+selected_category = st.sidebar.selectbox('Select Miscellaneous Category', categories)
+
+filtered_category_data = BA_AirlineReviews.dropna(subset=[selected_category])
+
+plt.figure(figsize=(8, 6))
+filtered_category_data[selected_category].value_counts().sort_index().plot(kind='barh', color='blue')
+plt.xlabel('Count')
+plt.ylabel('Score')
+plt.title(f'{selected_category} Ratings')
 st.pyplot(plt.gcf())
 
 

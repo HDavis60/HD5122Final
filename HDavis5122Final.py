@@ -45,6 +45,8 @@ plt.title(f'Ratings For {selected_class}')
 plt.xticks(rotation=0)
 st.pyplot(plt.gcf())
 
+
+
 #Random Review Button
 
 st.title('Random Review Button')
